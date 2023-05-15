@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import jp.pongi.calendar.databinding.MainFragmentBinding
+import jp.pongi.calendar.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
 
-    private var _binding: MainFragmentBinding? = null
+    private var _binding: FragmentMainBinding? = null
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
@@ -25,7 +25,7 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = MainFragmentBinding.inflate(inflater, container, false).apply {
+        _binding = FragmentMainBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = this@MainFragment.viewLifecycleOwner
             viewModel = mainViewModel
             calendarLayout.monthlyTable.apply {

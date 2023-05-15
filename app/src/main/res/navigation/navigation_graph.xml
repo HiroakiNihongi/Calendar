@@ -8,7 +8,7 @@
         android:id="@+id/mainFragment"
         android:name="jp.pongi.calendar.ui.main.MainFragment"
         android:label="main_fragment"
-        tools:layout="@layout/main_fragment" >
+        tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_main_to_plan"
             app:destination="@id/planFragment"
@@ -19,9 +19,9 @@
     </fragment>
     <fragment
         android:id="@+id/planFragment"
-        android:name="jp.pongi.calendar.ui.main.PlanFragment"
+        android:name="jp.pongi.calendar.ui.main.PlanEditFragment"
         android:label="plan_fragment"
-        tools:layout="@layout/plan_fragment">
+        tools:layout="@layout/fragment_plan_edit">
         <argument
             android:name="item"
             app:argType="jp.pongi.calendar.model.DateItem"/>

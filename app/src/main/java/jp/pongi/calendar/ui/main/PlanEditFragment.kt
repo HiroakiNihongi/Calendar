@@ -7,11 +7,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import jp.pongi.calendar.R
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
-class PlanFragment : Fragment(R.layout.plan_fragment) {
+class PlanEditFragment : Fragment(R.layout.fragment_plan_edit) {
 
-    private val args: PlanFragmentArgs by navArgs()
+    private val args: PlanEditFragmentArgs by navArgs()
     private val formatter = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.JAPAN)
 
     lateinit var startDateEdit: EditText

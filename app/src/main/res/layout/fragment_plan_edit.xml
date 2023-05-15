@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.PlanEditFragment">
+
+    <TextView
+        android:id="@+id/start_date_label"
+        style="@style/EditPlan.Label"
+        android:text="@string/label_plan_start"
+        app:layout_constraintBottom_toBottomOf="@id/start_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/start_date" />
+
+    <EditText
+        android:id="@+id/start_date"
+        style="@style/EditPlan.Edit.DateTime"
+        android:autofillHints="no"
+        android:hint="@string/label_plan_start_hint"
+        android:inputType="datetime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/start_date_label"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/end_date_label"
+        style="@style/EditPlan.Label"
+        android:text="@string/label_plan_end"
+        app:layout_constraintBottom_toBottomOf="@id/end_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/end_date" />
+
+    <EditText
+        android:id="@+id/end_date"
+        style="@style/EditPlan.Edit.DateTime"
+        android:autofillHints="no"
+        android:hint="@string/label_plan_end_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/end_date_label"
+        app:layout_constraintTop_toBottomOf="@id/start_date" />
+
+    <TextView
+        android:id="@+id/title_label"
+        style="@style/EditPlan.Label"
+        android:text="@string/label_plan_title"
+        app:layout_constraintBottom_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title" />
+
+    <EditText
+        android:id="@+id/title"
+        style="@style/EditPlan.Edit.SingleLine"
+        android:autofillHints="no"
+        android:hint="@string/label_plan_title_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/title_label"
+        app:layout_constraintTop_toBottomOf="@id/end_date" />
+
+    <TextView
+        android:id="@+id/memo_label"
+        style="@style/EditPlan.Label"
+        android:text="@string/label_plan_memo"
+        app:layout_constraintBottom_toTopOf="@id/memo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <EditText
+        android:id="@+id/memo"
+        style="@style/EditPlan.Edit.MultiLine"
+        android:autofillHints="no"
+        android:hint="@string/label_plan_memo_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/memo_label" />
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/OKButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/memo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
