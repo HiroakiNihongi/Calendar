@@ -19,5 +19,5 @@ data class Event(
     @ColumnInfo(name = "memo")
     val memo: String? = null,
     @ColumnInfo(name = "done")
-    val done: Boolean? = false
+    val done: Boolean = false
 )

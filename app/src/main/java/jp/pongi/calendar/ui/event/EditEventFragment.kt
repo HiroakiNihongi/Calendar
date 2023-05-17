@@ -23,6 +23,8 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
 
     private lateinit var startDateEdit: EditText
     private lateinit var endDateEdit: EditText
+    private lateinit var titleTextView: EditText
+    private lateinit var memoTextView: EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 開始日
@@ -35,6 +37,8 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
         }
         startDateEdit = view.findViewById(R.id.start_date)
         startDateEdit.setText(formatter.format(start.time))
+        titleTextView = view.findViewById(R.id.title)
+        memoTextView = view.findViewById(R.id.memo)
 
         // 終了日
         val end = start.clone() as Calendar
@@ -50,8 +54,8 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
     private fun apply() {
         val start = startDateEdit.text.toString()
         val end = endDateEdit.text.toString()
-        val title = view?.findViewById<EditText>(R.id.title)?.text.toString()
-        val memo = view?.findViewById<EditText>(R.id.memo)?.text.toString()
+        val title = titleTextView.text.toString()
+        val memo = memoTextView.text.toString()
         val dao = MyApplication.appDatabase.scheduleDao()
         lifecycleScope.launch(Dispatchers.IO) {
             dao.insert(
