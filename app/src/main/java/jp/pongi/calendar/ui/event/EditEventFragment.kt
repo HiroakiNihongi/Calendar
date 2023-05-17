@@ -10,9 +10,13 @@ import androidx.navigation.fragment.navArgs
 import jp.pongi.calendar.MyApplication
 import jp.pongi.calendar.R
 import jp.pongi.calendar.room.entities.Event
+import jp.pongi.calendar.ui.event.Converter.displayToInstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
@@ -57,15 +61,28 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
         val title = titleTextView.text.toString()
         val memo = memoTextView.text.toString()
         val dao = MyApplication.appDatabase.scheduleDao()
+
         lifecycleScope.launch(Dispatchers.IO) {
             dao.insert(
                 Event(
-                    start = start,
-                    end = end,
+                    start = displayToInstant(start),
+                    end = displayToInstant(end),
                     title = title,
                     memo = memo
                 )
             )
         }
     }
+}
+
+object Converter {
+    fun instantToDisplay(text: String): Instant =
+        displayFormatter.parse(text, Instant::from)
+
+    fun displayToInstant(text: String): Instant =
+        displayFormatter.parse(text, Instant::from)
+
+    private val displayFormatter = DateTimeFormatter
+        .ofPattern("yyyy/MM/dd HH:mm")
+        .withZone(ZoneOffset.UTC)
 }
