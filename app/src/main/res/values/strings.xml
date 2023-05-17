@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Calendar</string>
-    <string name="label_plan_start">開始日</string>
-    <string name="label_plan_start_hint">開始日</string>
-    <string name="label_plan_end">終了日</string>
-    <string name="label_plan_end_hint">終了日</string>
-    <string name="label_plan_title">件名</string>
-    <string name="label_plan_title_hint">件名</string>
-    <string name="label_plan_memo">メモ</string>
-    <string name="label_plan_memo_hint">メモ</string>
+    <string name="label_event_start">開始日</string>
+    <string name="label_event_start_hint">開始日</string>
+    <string name="label_event_end">終了日</string>
+    <string name="label_event_end_hint">終了日</string>
+    <string name="label_event_all_day">終日</string>
+    <string name="label_event_title">件名</string>
+    <string name="label_event_title_hint">件名</string>
+    <string name="label_event_memo">メモ</string>
+    <string name="label_event_memo_hint">メモ</string>
 </resources>

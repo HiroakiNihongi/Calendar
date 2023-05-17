@@ -7,21 +7,21 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="jp.pongi.calendar.ui.main.MainFragment"
-        android:label="main_fragment"
+        android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_main_to_plan"
-            app:destination="@id/planFragment"
+            android:id="@+id/action_main_to_edit_event"
+            app:destination="@id/editEventFragment"
             app:enterAnim="@anim/slide_from_bottom"
             app:exitAnim="@anim/slide_to_top"
             app:popEnterAnim="@anim/slide_from_top"
             app:popExitAnim="@anim/slide_to_bottom"/>
     </fragment>
     <fragment
-        android:id="@+id/planFragment"
-        android:name="jp.pongi.calendar.ui.main.PlanEditFragment"
-        android:label="plan_fragment"
-        tools:layout="@layout/fragment_plan_edit">
+        android:id="@+id/editEventFragment"
+        android:name="jp.pongi.calendar.ui.event.EditEventFragment"
+        android:label="fragment_edit_event"
+        tools:layout="@layout/fragment_edit_event">
         <argument
             android:name="item"
             app:argType="jp.pongi.calendar.model.DateItem"/>

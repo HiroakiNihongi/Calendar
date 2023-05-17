@@ -31,7 +31,7 @@ class MainFragment : Fragment() {
             calendarLayout.monthlyTable.apply {
                 calendarAdapter = CalendarAdapter()
                 calendarAdapter.onItemClick = { item ->
-                        val action = MainFragmentDirections.actionMainToPlan(item)
+                        val action = MainFragmentDirections.actionMainToEditEvent(item)
                         findNavController().navigate(action)
                 }
                 adapter = calendarAdapter

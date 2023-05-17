@@ -14,33 +14,33 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="EditPlan" parent="Theme.Calendar">
+    <style name="EditEvent" parent="Theme.Calendar">
 
     </style>
 
-    <style name="EditPlan.Label">
+    <style name="EditEvent.Label">
         <item name="android:layout_width">80dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">8dp</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="EditPlan.Edit">
+    <style name="EditEvent.Edit">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">8dp</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="EditPlan.Edit.DateTime">
+    <style name="EditEvent.Edit.DateTime">
         <item name="android:inputType">datetime</item>
     </style>
 
-    <style name="EditPlan.Edit.SingleLine">
+    <style name="EditEvent.Edit.SingleLine">
         <item name="android:inputType">text</item>
     </style>
 
-    <style name="EditPlan.Edit.MultiLine">
+    <style name="EditEvent.Edit.MultiLine">
         <item name="android:inputType">textMultiLine</item>
     </style>
 

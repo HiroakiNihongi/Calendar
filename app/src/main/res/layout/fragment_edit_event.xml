@@ -2,24 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.PlanEditFragment">
+    tools:context=".ui.event.EditEventFragment">
 
     <TextView
         android:id="@+id/start_date_label"
-        style="@style/EditPlan.Label"
-        android:text="@string/label_plan_start"
+        style="@style/EditEvent.Label"
+        android:text="@string/label_event_start"
         app:layout_constraintBottom_toBottomOf="@id/start_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/start_date" />
 
     <EditText
         android:id="@+id/start_date"
-        style="@style/EditPlan.Edit.DateTime"
+        style="@style/EditEvent.Edit.DateTime"
         android:autofillHints="no"
-        android:hint="@string/label_plan_start_hint"
+        android:hint="@string/label_event_start_hint"
         android:inputType="datetime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/start_date_label"
@@ -27,42 +27,42 @@
 
     <TextView
         android:id="@+id/end_date_label"
-        style="@style/EditPlan.Label"
-        android:text="@string/label_plan_end"
+        style="@style/EditEvent.Label"
+        android:text="@string/label_event_end"
         app:layout_constraintBottom_toBottomOf="@id/end_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/end_date" />
 
     <EditText
         android:id="@+id/end_date"
-        style="@style/EditPlan.Edit.DateTime"
+        style="@style/EditEvent.Edit.DateTime"
         android:autofillHints="no"
-        android:hint="@string/label_plan_end_hint"
+        android:hint="@string/label_event_end_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/end_date_label"
         app:layout_constraintTop_toBottomOf="@id/start_date" />
 
     <TextView
         android:id="@+id/title_label"
-        style="@style/EditPlan.Label"
-        android:text="@string/label_plan_title"
+        style="@style/EditEvent.Label"
+        android:text="@string/label_event_title"
         app:layout_constraintBottom_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/title" />
 
     <EditText
         android:id="@+id/title"
-        style="@style/EditPlan.Edit.SingleLine"
+        style="@style/EditEvent.Edit.SingleLine"
         android:autofillHints="no"
-        android:hint="@string/label_plan_title_hint"
+        android:hint="@string/label_event_title_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/title_label"
         app:layout_constraintTop_toBottomOf="@id/end_date" />
 
     <TextView
         android:id="@+id/memo_label"
-        style="@style/EditPlan.Label"
-        android:text="@string/label_plan_memo"
+        style="@style/EditEvent.Label"
+        android:text="@string/label_event_memo"
         app:layout_constraintBottom_toTopOf="@id/memo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -71,9 +71,9 @@
 
     <EditText
         android:id="@+id/memo"
-        style="@style/EditPlan.Edit.MultiLine"
+        style="@style/EditEvent.Edit.MultiLine"
         android:autofillHints="no"
-        android:hint="@string/label_plan_memo_hint"
+        android:hint="@string/label_event_memo_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/memo_label" />
