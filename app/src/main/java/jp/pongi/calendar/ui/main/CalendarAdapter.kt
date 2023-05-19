@@ -33,7 +33,7 @@ class CalendarAdapter : ListAdapter<DateItem, CalendarAdapter.ItemViewHolder>(It
 
     object ItemDiffCallback : DiffUtil.ItemCallback<DateItem>() {
         override fun areItemsTheSame(oldItem: DateItem, newItem: DateItem): Boolean {
-            return oldItem.calendar.time == newItem.calendar.time
+            return oldItem.localDate.toEpochDay() == newItem.localDate.toEpochDay()
         }
 
         override fun areContentsTheSame(oldItem: DateItem, newItem: DateItem): Boolean {

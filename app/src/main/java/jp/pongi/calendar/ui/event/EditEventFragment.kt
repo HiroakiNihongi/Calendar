@@ -10,20 +10,17 @@ import androidx.navigation.fragment.navArgs
 import jp.pongi.calendar.MyApplication
 import jp.pongi.calendar.R
 import jp.pongi.calendar.room.entities.Event
-import jp.pongi.calendar.ui.event.Converter.displayToInstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.Instant
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
-import java.util.Locale
 
 class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
 
     private val args: EditEventFragmentArgs by navArgs()
-    private val formatter = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.JAPAN)
 
     private lateinit var startDateEdit: EditText
     private lateinit var endDateEdit: EditText
@@ -31,24 +28,23 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
     private lateinit var memoTextView: EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val h = LocalTime.now().hour
+        val m = if (LocalTime.now().minute < 30) 0 else 30
+        val localTime = LocalTime.of(h, m)
+        val localDate = args.item.localDate
+
         // 開始日
-        val start = args.item.calendar.clone() as Calendar
-        start.apply {
-            set(Calendar.HOUR_OF_DAY, Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + 1)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
+        val start = LocalDateTime.of(localDate, localTime).plusMinutes(30)
+        // 終了日
+        val end = start.plusHours(1)
+
         startDateEdit = view.findViewById(R.id.start_date)
-        startDateEdit.setText(formatter.format(start.time))
+        startDateEdit.setText(start.instantToDisplay())
         titleTextView = view.findViewById(R.id.title)
         memoTextView = view.findViewById(R.id.memo)
 
-        // 終了日
-        val end = start.clone() as Calendar
-        end.add(Calendar.HOUR_OF_DAY, 1)
         endDateEdit = view.findViewById(R.id.end_date)
-        endDateEdit.setText(formatter.format(end.time))
+        endDateEdit.setText(end.instantToDisplay())
 
         view.findViewById<Button>(R.id.btn_ok).setOnClickListener {
             apply()
@@ -65,24 +61,23 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
         lifecycleScope.launch(Dispatchers.IO) {
             dao.insert(
                 Event(
-                    start = displayToInstant(start),
-                    end = displayToInstant(end),
+                    start = start.displayToInstant(),
+                    end = end.displayToInstant(),
                     title = title,
                     memo = memo
                 )
             )
         }
     }
-}
 
-object Converter {
-    fun instantToDisplay(text: String): Instant =
-        displayFormatter.parse(text, Instant::from)
+    private fun LocalDateTime.instantToDisplay(): String =
+        displayFormatter.format(this)
 
-    fun displayToInstant(text: String): Instant =
-        displayFormatter.parse(text, Instant::from)
+    private fun String.displayToInstant(): Instant =
+        displayFormatter.parse(this, Instant::from)
 
     private val displayFormatter = DateTimeFormatter
         .ofPattern("yyyy/MM/dd HH:mm")
         .withZone(ZoneOffset.UTC)
+
 }

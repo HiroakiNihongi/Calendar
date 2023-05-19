@@ -1,12 +1,12 @@
 package jp.pongi.calendar.model
 
 import java.io.Serializable
-import java.util.Calendar
+import java.time.LocalDate
 
 data class DateItem(
-    val calendar: Calendar,
+    val localDate: LocalDate,
     val today: Boolean = false
 ) : Serializable {
-    val dayOfMonth: String = calendar.get(Calendar.DAY_OF_MONTH).toString()
-    val dayOfWeek: String = calendar.get(Calendar.DAY_OF_WEEK).toString()
+    val dayOfMonth: String = localDate.dayOfMonth.toString()
+    val dayOfWeek: String = localDate.dayOfWeek.value.toString()
 }
