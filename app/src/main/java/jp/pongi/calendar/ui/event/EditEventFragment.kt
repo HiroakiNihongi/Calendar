@@ -6,9 +6,11 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import jp.pongi.calendar.MyApplication
 import jp.pongi.calendar.R
+import jp.pongi.calendar.model.DateItem
 import jp.pongi.calendar.room.entities.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,25 +29,33 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
     private lateinit var titleTextView: EditText
     private lateinit var memoTextView: EditText
 
+    private lateinit var item: DateItem
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val h = LocalTime.now().hour
-        val m = if (LocalTime.now().minute < 30) 0 else 30
-        val localTime = LocalTime.of(h, m)
-        val localDate = args.item.localDate
-
-        // 開始日
-        val start = LocalDateTime.of(localDate, localTime).plusMinutes(30)
-        // 終了日
-        val end = start.plusHours(1)
-
         startDateEdit = view.findViewById(R.id.start_date)
-        startDateEdit.setText(start.instantToDisplay())
+        endDateEdit = view.findViewById(R.id.end_date)
         titleTextView = view.findViewById(R.id.title)
         memoTextView = view.findViewById(R.id.memo)
 
-        endDateEdit = view.findViewById(R.id.end_date)
-        endDateEdit.setText(end.instantToDisplay())
+        item = args.item
+        item.event?.let { event ->
+            startDateEdit.setText(event.start.instantToDisplay())
+            endDateEdit.setText(event.end.instantToDisplay())
+            titleTextView.setText(event.title)
+            memoTextView.setText(event.memo)
+        } ?: run {
+            val h = LocalTime.now().hour
+            val m = if (LocalTime.now().minute < 30) 0 else 30
+            val localTime = LocalTime.of(h, m)
+            val localDate = args.item.localDate
+            // 開始日
+            val start = LocalDateTime.of(localDate, localTime).plusMinutes(30)
+            // 終了日
+            val end = start.plusHours(1)
 
+            startDateEdit.setText(start.instantToDisplay())
+            endDateEdit.setText(end.instantToDisplay())
+        }
         view.findViewById<Button>(R.id.btn_ok).setOnClickListener {
             apply()
         }
@@ -56,21 +66,36 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
         val end = endDateEdit.text.toString()
         val title = titleTextView.text.toString()
         val memo = memoTextView.text.toString()
-        val dao = MyApplication.appDatabase.eventDao()
 
         lifecycleScope.launch(Dispatchers.IO) {
-            dao.insert(
-                Event(
-                    start = start.displayToInstant(),
-                    end = end.displayToInstant(),
-                    title = title,
-                    memo = memo
+            val dao = MyApplication.appDatabase.eventDao()
+            item.event?.let {
+                dao.update(
+                    it.copy(
+                        start = start.displayToInstant(),
+                        end = end.displayToInstant(),
+                        title = title,
+                        memo = memo
+                    )
                 )
-            )
+            } ?: run {
+                dao.insert(
+                    Event(
+                        start = start.displayToInstant(),
+                        end = end.displayToInstant(),
+                        title = title,
+                        memo = memo
+                    )
+                )
+            }
         }
+        findNavController().popBackStack()
     }
 
     private fun LocalDateTime.instantToDisplay(): String =
+        displayFormatter.format(this)
+
+    private fun Instant.instantToDisplay(): String =
         displayFormatter.format(this)
 
     private fun String.displayToInstant(): Instant =

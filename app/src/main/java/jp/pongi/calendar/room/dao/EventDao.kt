@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import jp.pongi.calendar.room.entities.Event
 import java.time.Instant
 
@@ -11,6 +12,9 @@ import java.time.Instant
 interface EventDao {
     @Insert
     fun insert(event: Event)
+
+    @Update
+    fun update(event: Event)
 
     @Delete
     fun delete(event: Event)

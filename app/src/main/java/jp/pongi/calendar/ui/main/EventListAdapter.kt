@@ -10,10 +10,13 @@ import jp.pongi.calendar.room.entities.Event
 
 class EventListAdapter : ListAdapter<Event, EventListAdapter.EventViewHolder>(ItemDiffCallback) {
 
-    class EventViewHolder(private val binding: ItemEventBinding) :
+    lateinit var onItemClick: (item: Event) -> Unit
+
+    inner class EventViewHolder(private val binding: ItemEventBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: Event) {
             binding.event = event
+            binding.onItemClick = onItemClick
         }
     }
 

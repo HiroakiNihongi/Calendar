@@ -3,13 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="kotlin.jvm.functions.Function1" />
+
+        <import type="kotlin.Unit" />
+
         <variable
             name="event"
             type="jp.pongi.calendar.room.entities.Event" />
+
+        <variable
+            name="onItemClick"
+            type="Function1&lt;jp.pongi.calendar.room.entities.Event, Unit&gt;" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{() -> onItemClick.invoke(event)}"
         android:layout_marginHorizontal="8dp">
 
         <TextView
@@ -18,11 +29,11 @@
             android:layout_height="wrap_content"
             android:text="@string/event_mark"
             android:textColor="@android:color/holo_red_dark"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/title"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"

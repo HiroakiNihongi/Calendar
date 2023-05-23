@@ -13,14 +13,10 @@ class CalendarAdapter : ListAdapter<DateItem, CalendarAdapter.ItemViewHolder>(It
     lateinit var onItemClick: (item: DateItem) -> Unit
     lateinit var onItemLongClick: (item: DateItem) -> Boolean
 
-    class ItemViewHolder(private val binding: ItemDateBinding) :
+    inner class ItemViewHolder(private val binding: ItemDateBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(
-            item: DateItem,
-            onItemClick: (item: DateItem) -> Unit,
-            onItemLongClick: (item: DateItem) -> Boolean
-        ) {
+        fun bind(item: DateItem) {
             binding.onItemClick = onItemClick
             binding.onItemLongClick = onItemLongClick
             binding.item = item
@@ -34,7 +30,7 @@ class CalendarAdapter : ListAdapter<DateItem, CalendarAdapter.ItemViewHolder>(It
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClick, onItemLongClick)
+        holder.bind(getItem(position))
     }
 
     object ItemDiffCallback : DiffUtil.ItemCallback<DateItem>() {

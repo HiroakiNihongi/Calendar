@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import jp.pongi.calendar.databinding.FragmentMainBinding
+import jp.pongi.calendar.model.DateItem
 import java.time.LocalDate
 
 class MainFragment : Fragment() {
@@ -46,6 +47,13 @@ class MainFragment : Fragment() {
             eventsTable.apply {
                 eventListAdapter = EventListAdapter()
                 adapter = eventListAdapter
+                eventListAdapter.onItemClick = {event ->
+                    val current = mainViewModel.current.value ?: LocalDate.now()
+                    val isToday = current == LocalDate.now()
+                    val item = DateItem(current, isToday, event)
+                    val action = MainFragmentDirections.actionMainToEditEvent(item)
+                    findNavController().navigate(action)
+                }
 
             }
         }

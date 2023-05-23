@@ -20,7 +20,7 @@ import java.time.temporal.TemporalAdjusters
 
 class MainViewModel : ViewModel() {
 
-    private var current = MutableLiveData<LocalDate>()
+    var current = MutableLiveData<LocalDate>()
 
     val currentMonth: LiveData<String> = current.map { current ->
         DateTimeFormatter
