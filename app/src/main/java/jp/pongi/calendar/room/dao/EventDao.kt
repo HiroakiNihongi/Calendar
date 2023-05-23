@@ -24,4 +24,12 @@ interface EventDao {
 
     @Query("SELECT * FROM events WHERE events.start BETWEEN :start AND :end")
     fun getEvent(start: Instant, end: Instant): List<Event>
+
+    fun insertOrUpdate(event: Event) {
+        if (event.id == 0) {
+            insert(event)
+        } else {
+            update(event)
+        }
+    }
 }

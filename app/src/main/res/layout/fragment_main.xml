@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="jp.pongi.calendar.ui.main.MainViewModel" />
+            type="jp.pongi.calendar.ui.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,9 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.moveToTodayMonth()}"
             android:padding="8dp"
             android:text="@{viewModel.currentMonth}"
-            android:onClick="@{() -> viewModel.moveToTodayMonth()}"
             app:layout_constraintBottom_toTopOf="@id/calendar_layout"
             app:layout_constraintEnd_toStartOf="@id/next"
             app:layout_constraintStart_toEndOf="@id/prev"
@@ -64,24 +64,23 @@
             layout="@layout/layout_calendar"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_default="wrap"
-            app:layout_constraintTop_toBottomOf="@id/month_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@id/month_name" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/events_table"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            tools:listitem="@layout/item_event"
-            app:layout_constraintTop_toBottomOf="@id/calendar_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendar_layout"
+            tools:listitem="@layout/item_event" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

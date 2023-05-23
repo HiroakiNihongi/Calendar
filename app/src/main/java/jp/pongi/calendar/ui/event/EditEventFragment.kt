@@ -1,20 +1,20 @@
 package jp.pongi.calendar.ui.event
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import jp.pongi.calendar.MyApplication
 import jp.pongi.calendar.R
 import jp.pongi.calendar.model.DateItem
 import jp.pongi.calendar.room.entities.Event
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import jp.pongi.calendar.ui.MainViewModel
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
@@ -29,7 +29,12 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
     private lateinit var titleTextView: EditText
     private lateinit var memoTextView: EditText
 
-    private lateinit var item: DateItem
+    private lateinit var dateItem: DateItem
+    private var eventItem: Event? = null
+
+    // Use the 'by activityViewModels()' Kotlin property delegate
+    // from the fragment-ktx artifact
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         startDateEdit = view.findViewById(R.id.start_date)
@@ -37,8 +42,12 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
         titleTextView = view.findViewById(R.id.title)
         memoTextView = view.findViewById(R.id.memo)
 
-        item = args.item
-        item.event?.let { event ->
+        Log.d("DBG", "current = ${DateTimeFormatter
+            .ofPattern("yyyy年 MM月 dd日")
+            .format(mainViewModel.current.value)}")
+        dateItem = args.dateItem
+        eventItem = args.event
+        eventItem?.let { event ->
             startDateEdit.setText(event.start.instantToDisplay())
             endDateEdit.setText(event.end.instantToDisplay())
             titleTextView.setText(event.title)
@@ -47,7 +56,7 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
             val h = LocalTime.now().hour
             val m = if (LocalTime.now().minute < 30) 0 else 30
             val localTime = LocalTime.of(h, m)
-            val localDate = args.item.localDate
+            val localDate = LocalDate.now()
             // 開始日
             val start = LocalDateTime.of(localDate, localTime).plusMinutes(30)
             // 終了日
@@ -62,38 +71,28 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
     }
 
     private fun apply() {
-        val start = startDateEdit.text.toString()
-        val end = endDateEdit.text.toString()
+        val start = startDateEdit.text.toString().displayToInstant()
+        val end = endDateEdit.text.toString().displayToInstant()
         val title = titleTextView.text.toString()
         val memo = memoTextView.text.toString()
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            val dao = MyApplication.appDatabase.eventDao()
-            item.event?.let {
-                dao.update(
-                    it.copy(
-                        start = start.displayToInstant(),
-                        end = end.displayToInstant(),
-                        title = title,
-                        memo = memo
-                    )
-                )
-            } ?: run {
-                dao.insert(
-                    Event(
-                        start = start.displayToInstant(),
-                        end = end.displayToInstant(),
-                        title = title,
-                        memo = memo
-                    )
-                )
-            }
-        }
+        val updateItem = eventItem?.copy(
+            start = start,
+            end = end,
+            title = title,
+            memo = memo
+        ) ?: Event(
+            start = start,
+            end = end,
+            title = title,
+            memo = memo
+        )
+        mainViewModel.update(updateItem)
         findNavController().popBackStack()
     }
 
     private fun LocalDateTime.instantToDisplay(): String =
-        displayFormatter.format(this)
+        this.toInstant(ZoneOffset.UTC).instantToDisplay()
 
     private fun Instant.instantToDisplay(): String =
         displayFormatter.format(this)

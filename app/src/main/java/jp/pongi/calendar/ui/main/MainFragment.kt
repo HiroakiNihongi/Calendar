@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import jp.pongi.calendar.databinding.FragmentMainBinding
 import jp.pongi.calendar.model.DateItem
+import jp.pongi.calendar.ui.MainViewModel
 import java.time.LocalDate
 
 class MainFragment : Fragment() {
@@ -35,7 +36,7 @@ class MainFragment : Fragment() {
             calendarLayout.monthlyTable.apply {
                 calendarAdapter = CalendarAdapter()
                 calendarAdapter.onItemClick = {
-                    mainViewModel.setCurrent(it.localDate)
+                    mainViewModel.setCurrent(it)
                 }
                 calendarAdapter.onItemLongClick = { item ->
                     val action = MainFragmentDirections.actionMainToEditEvent(item)
@@ -47,11 +48,12 @@ class MainFragment : Fragment() {
             eventsTable.apply {
                 eventListAdapter = EventListAdapter()
                 adapter = eventListAdapter
-                eventListAdapter.onItemClick = {event ->
+                eventListAdapter.onItemClick = { event ->
+                    mainViewModel.setEvent(event)
                     val current = mainViewModel.current.value ?: LocalDate.now()
                     val isToday = current == LocalDate.now()
-                    val item = DateItem(current, isToday, event)
-                    val action = MainFragmentDirections.actionMainToEditEvent(item)
+                    val item = DateItem(current, isToday)
+                    val action = MainFragmentDirections.actionMainToEditEvent(item, event)
                     findNavController().navigate(action)
                 }
 
@@ -62,7 +64,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainViewModel.setCurrent(LocalDate.now())
+        mainViewModel.setCurrent(DateItem(LocalDate.now(), true))
         mainViewModel.itemList.observe(viewLifecycleOwner) {
             calendarAdapter.submitList(it)
         }
