@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import jp.pongi.calendar.databinding.FragmentMainBinding
+import java.time.LocalDate
 
 class MainFragment : Fragment() {
 
@@ -20,6 +21,8 @@ class MainFragment : Fragment() {
     private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var calendarAdapter: CalendarAdapter
+    private lateinit var eventListAdapter: EventListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,11 +33,20 @@ class MainFragment : Fragment() {
             viewModel = mainViewModel
             calendarLayout.monthlyTable.apply {
                 calendarAdapter = CalendarAdapter()
-                calendarAdapter.onItemClick = { item ->
-                        val action = MainFragmentDirections.actionMainToEditEvent(item)
-                        findNavController().navigate(action)
+                calendarAdapter.onItemClick = {
+                    mainViewModel.setCurrent(it.localDate)
+                }
+                calendarAdapter.onItemLongClick = { item ->
+                    val action = MainFragmentDirections.actionMainToEditEvent(item)
+                    findNavController().navigate(action)
+                    true
                 }
                 adapter = calendarAdapter
+            }
+            eventsTable.apply {
+                eventListAdapter = EventListAdapter()
+                adapter = eventListAdapter
+
             }
         }
         return binding.root
@@ -42,8 +54,12 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainViewModel.setCurrent(LocalDate.now())
         mainViewModel.itemList.observe(viewLifecycleOwner) {
             calendarAdapter.submitList(it)
+        }
+        mainViewModel.eventList.observe(viewLifecycleOwner) {
+            eventListAdapter.submitList(it)
         }
     }
 }

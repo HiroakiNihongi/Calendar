@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import jp.pongi.calendar.room.entities.Event
+import java.time.Instant
 
 @Dao
 interface EventDao {
@@ -17,4 +18,6 @@ interface EventDao {
     @Query("SELECT * FROM events")
     fun getAll(): List<Event>
 
+    @Query("SELECT * FROM events WHERE events.start BETWEEN :start AND :end")
+    fun getEvent(start: Instant, end: Instant): List<Event>
 }

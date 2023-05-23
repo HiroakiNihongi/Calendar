@@ -9,4 +9,5 @@
     <string name="label_event_title_hint">件名</string>
     <string name="label_event_memo">メモ</string>
     <string name="label_event_memo_hint">メモ</string>
+    <string name="event_mark">●</string>
 </resources>

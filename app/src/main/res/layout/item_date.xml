@@ -13,6 +13,9 @@
             name="onItemClick"
             type="Function1&lt;jp.pongi.calendar.model.DateItem, Unit&gt;"/>
         <variable
+            name="onItemLongClick"
+            type="Function1&lt;jp.pongi.calendar.model.DateItem, Boolean&gt;"/>
+        <variable
             name="item"
             type="jp.pongi.calendar.model.DateItem" />
     </data>
@@ -21,26 +24,8 @@
         android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:onClick="@{() -> onItemClick.invoke(item)}"
+        android:onLongClick="@{() -> onItemLongClick.invoke(item)}"
         android:background="@{item.today? @android:color/holo_red_light : @android:color/transparent}">
-
-        <TextView
-            android:id="@+id/day_of_week"
-            android:layout_width="wrap_content"
-            android:layout_height="8dp"
-            android:layout_margin="2dp"
-            android:gravity="center_horizontal"
-            android:includeFontPadding="false"
-            android:text="@{item.dayOfWeek}"
-            android:textSize="8dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/day"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="31"
-            tools:ignore="SpUsage" />
 
         <TextView
             android:id="@+id/day"
@@ -50,12 +35,27 @@
             android:includeFontPadding="false"
             android:text="@{item.dayOfMonth}"
             android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@id/schedules"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="31" />
+
+        <TextView
+            android:id="@+id/schedules"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:includeFontPadding="false"
+            android:textSize="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/day_of_week"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="31" />
+            app:layout_constraintTop_toBottomOf="@id/day"
+            app:layout_constraintHorizontal_bias="0"
+            tools:text="xxx"
+            tools:ignore="SpUsage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -56,7 +56,7 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
         val end = endDateEdit.text.toString()
         val title = titleTextView.text.toString()
         val memo = memoTextView.text.toString()
-        val dao = MyApplication.appDatabase.scheduleDao()
+        val dao = MyApplication.appDatabase.eventDao()
 
         lifecycleScope.launch(Dispatchers.IO) {
             dao.insert(

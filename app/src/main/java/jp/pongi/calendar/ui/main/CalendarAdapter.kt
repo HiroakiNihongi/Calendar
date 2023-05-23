@@ -11,12 +11,18 @@ import jp.pongi.calendar.model.DateItem
 class CalendarAdapter : ListAdapter<DateItem, CalendarAdapter.ItemViewHolder>(ItemDiffCallback) {
 
     lateinit var onItemClick: (item: DateItem) -> Unit
+    lateinit var onItemLongClick: (item: DateItem) -> Boolean
 
     class ItemViewHolder(private val binding: ItemDateBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: DateItem, onItemClick: (item: DateItem) -> Unit) {
+        fun bind(
+            item: DateItem,
+            onItemClick: (item: DateItem) -> Unit,
+            onItemLongClick: (item: DateItem) -> Boolean
+        ) {
             binding.onItemClick = onItemClick
+            binding.onItemLongClick = onItemLongClick
             binding.item = item
         }
     }
@@ -28,7 +34,7 @@ class CalendarAdapter : ListAdapter<DateItem, CalendarAdapter.ItemViewHolder>(It
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClick)
+        holder.bind(getItem(position), onItemClick, onItemLongClick)
     }
 
     object ItemDiffCallback : DiffUtil.ItemCallback<DateItem>() {
