@@ -35,10 +35,11 @@ class MainFragment : Fragment() {
             viewModel = mainViewModel
             calendarLayout.monthlyTable.apply {
                 calendarAdapter = CalendarAdapter()
-                calendarAdapter.onItemClick = {
-                    mainViewModel.setCurrent(it)
+                calendarAdapter.onItemClick = { item ->
+                    mainViewModel.setCurrent(item)
                 }
                 calendarAdapter.onItemLongClick = { item ->
+                    mainViewModel.setCurrent(item)
                     val action = MainFragmentDirections.actionMainToEditEvent(item)
                     findNavController().navigate(action)
                     true
@@ -59,12 +60,12 @@ class MainFragment : Fragment() {
 
             }
         }
+        mainViewModel.setCurrent()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainViewModel.setCurrent(DateItem(LocalDate.now(), true))
         mainViewModel.itemList.observe(viewLifecycleOwner) {
             calendarAdapter.submitList(it)
         }

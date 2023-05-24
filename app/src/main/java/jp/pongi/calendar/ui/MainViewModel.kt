@@ -48,9 +48,9 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun setCurrent(date: DateItem) {
-        selectDate.value = date
-        current.value = date.localDate
+    fun setCurrent(date: DateItem? = null) {
+        current.value = date?.localDate ?: current.value ?: LocalDate.now()
+        selectDate.value = date ?: DateItem(current.value ?: LocalDate.now(), true)
     }
 
     fun setEvent(event: Event) {

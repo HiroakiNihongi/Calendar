@@ -14,7 +14,6 @@ import jp.pongi.calendar.model.DateItem
 import jp.pongi.calendar.room.entities.Event
 import jp.pongi.calendar.ui.MainViewModel
 import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
@@ -56,7 +55,7 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
             val h = LocalTime.now().hour
             val m = if (LocalTime.now().minute < 30) 0 else 30
             val localTime = LocalTime.of(h, m)
-            val localDate = LocalDate.now()
+            val localDate = dateItem.localDate
             // 開始日
             val start = LocalDateTime.of(localDate, localTime).plusMinutes(30)
             // 終了日
