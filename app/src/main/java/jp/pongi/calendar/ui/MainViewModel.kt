@@ -27,7 +27,8 @@ class MainViewModel : ViewModel() {
     var current = MutableLiveData<LocalDate>()
 
     var selectDate = MutableLiveData<DateItem>()
-    var selectEvent = MutableLiveData<Event>()
+    var selectEvent = MutableLiveData<Event?>()
+    var selectedItemPos = -1
 
     val currentMonth: LiveData<String> = current.map { current ->
         DateTimeFormatter

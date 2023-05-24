@@ -40,6 +40,7 @@ class MainFragment : Fragment() {
                 }
                 calendarAdapter.onItemLongClick = { item ->
                     mainViewModel.setCurrent(item)
+                    mainViewModel.selectedItemPos = calendarAdapter.selectedItemPos
                     val action = MainFragmentDirections.actionMainToEditEvent(item)
                     findNavController().navigate(action)
                     true
@@ -51,6 +52,7 @@ class MainFragment : Fragment() {
                 adapter = eventListAdapter
                 eventListAdapter.onItemClick = { event ->
                     mainViewModel.setEvent(event)
+                    mainViewModel.selectedItemPos = calendarAdapter.selectedItemPos
                     val current = mainViewModel.current.value ?: LocalDate.now()
                     val isToday = current == LocalDate.now()
                     val item = DateItem(current, isToday)

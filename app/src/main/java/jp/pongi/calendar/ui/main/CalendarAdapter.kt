@@ -13,14 +13,40 @@ class CalendarAdapter : ListAdapter<DateItem, CalendarAdapter.ItemViewHolder>(It
     lateinit var onItemClick: (item: DateItem) -> Unit
     lateinit var onItemLongClick: (item: DateItem) -> Boolean
 
+    var selectedItemPos = -1
+
     inner class ItemViewHolder(private val binding: ItemDateBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: DateItem) {
-            binding.onItemClick = onItemClick
+        fun bind(item: DateItem, position: Int) {
+            binding.onItemClick = {
+                onItemClick.invoke(it)
+                val lastItemSelectedPos = selectedItemPos
+                selectedItemPos = adapterPosition
+                if (lastItemSelectedPos != -1) {
+                    notifyItemChanged(lastItemSelectedPos)
+                }
+                notifyItemChanged(selectedItemPos)
+            }
             binding.onItemLongClick = onItemLongClick
             binding.item = item
+            if (selectedItemPos == -1) {
+                binding.container.isSelected = item.today
+                if (item.today) {
+                    selectedItemPos = position
+                }
+            } else {
+                binding.container.isSelected = (position == selectedItemPos)
+            }
         }
+    }
+
+    init {
+        setHasStableIds(true)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return getItem(position).localDate.toEpochDay()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -30,7 +56,7 @@ class CalendarAdapter : ListAdapter<DateItem, CalendarAdapter.ItemViewHolder>(It
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
     }
 
     object ItemDiffCallback : DiffUtil.ItemCallback<DateItem>() {

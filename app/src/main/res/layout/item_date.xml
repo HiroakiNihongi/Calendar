@@ -5,27 +5,46 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <import type="kotlin.jvm.functions.Function1" />
 
         <import type="kotlin.Unit" />
 
         <variable
             name="onItemClick"
-            type="Function1&lt;jp.pongi.calendar.model.DateItem, Unit&gt;"/>
+            type="Function1&lt;jp.pongi.calendar.model.DateItem, Unit&gt;" />
+
         <variable
             name="onItemLongClick"
-            type="Function1&lt;jp.pongi.calendar.model.DateItem, Boolean&gt;"/>
+            type="Function1&lt;jp.pongi.calendar.model.DateItem, Boolean&gt;" />
+
         <variable
             name="item"
             type="jp.pongi.calendar.model.DateItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_date_item"
         android:onClick="@{() -> onItemClick.invoke(item)}"
-        android:onLongClick="@{() -> onItemLongClick.invoke(item)}"
-        android:background="@{item.today? @android:color/holo_red_light : @android:color/transparent}">
+        android:onLongClick="@{() -> onItemLongClick.invoke(item)}">
+
+        <TextView
+            android:id="@+id/icon"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/event_mark"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="8dp"
+            android:visibility="@{item.today ? View.VISIBLE: View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpUsage" />
 
         <TextView
             android:id="@+id/day"
@@ -51,11 +70,11 @@
             android:textSize="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/day"
-            app:layout_constraintHorizontal_bias="0"
-            tools:text="xxx"
-            tools:ignore="SpUsage" />
+            tools:ignore="SpUsage"
+            tools:text="xxx" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
