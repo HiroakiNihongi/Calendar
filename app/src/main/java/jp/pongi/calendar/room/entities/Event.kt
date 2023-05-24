@@ -5,6 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 @Entity(tableName = "events")
 data class Event(
@@ -22,4 +24,16 @@ data class Event(
     val memo: String? = null,
     @ColumnInfo(name = "done")
     val done: Boolean = false
-): Serializable
+): Serializable {
+
+    fun startStr() = start.instantToDisplay()
+
+    fun endStr() = end.instantToDisplay()
+
+    private fun Instant.instantToDisplay(): String =
+        DateTimeFormatter
+            .ofPattern("HH:mm")
+            .withZone(ZoneOffset.UTC)
+            .format(this)
+
+}

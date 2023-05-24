@@ -22,7 +22,7 @@ interface EventDao {
     @Query("SELECT * FROM events")
     fun getAll(): List<Event>
 
-    @Query("SELECT * FROM events WHERE events.start BETWEEN :start AND :end")
+    @Query("SELECT * FROM events WHERE events.start BETWEEN :start AND :end ORDER BY start ASC")
     fun getEvent(start: Instant, end: Instant): List<Event>
 
     fun insertOrUpdate(event: Event) {
