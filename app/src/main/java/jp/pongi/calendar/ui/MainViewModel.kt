@@ -99,4 +99,10 @@ class MainViewModel : ViewModel() {
             repo.insertOrUpdate(event)
         }
     }
+
+    fun delete(event: Event) {
+        viewModelScope.launch {
+            repo.delete(event)
+        }
+    }
 }

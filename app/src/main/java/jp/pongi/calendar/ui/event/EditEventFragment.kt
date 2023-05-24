@@ -2,11 +2,17 @@ package jp.pongi.calendar.ui.event
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import jp.pongi.calendar.R
@@ -67,6 +73,28 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
         view.findViewById<Button>(R.id.btn_ok).setOnClickListener {
             apply()
         }
+
+        // 画面右上に Menu を表示させる
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_edit_event, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when(menuItem.itemId) {
+                    R.id.menu_delete -> {
+                        // イベントの削除
+                        eventItem?.let { event ->
+                            mainViewModel.delete(event)
+                            findNavController().popBackStack()
+                        }
+                    }
+                }
+                return true
+            }
+
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun apply() {
