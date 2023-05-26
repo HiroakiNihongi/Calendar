@@ -50,7 +50,7 @@
             android:id="@+id/day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:includeFontPadding="false"
             android:text="@{item.dayOfMonth}"
             android:textSize="24sp"

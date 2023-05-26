@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import jp.pongi.calendar.databinding.FragmentMainBinding
 import jp.pongi.calendar.model.DateItem
 import jp.pongi.calendar.ui.MainViewModel
@@ -15,6 +16,7 @@ import java.time.LocalDate
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
+
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
@@ -45,7 +47,8 @@ class MainFragment : Fragment() {
                     findNavController().navigate(action)
                     true
                 }
-                adapter = calendarAdapter
+                val headerAdapter = CalendarHeaderAdapter()
+                adapter = ConcatAdapter(headerAdapter, calendarAdapter)
             }
             eventsTable.apply {
                 eventListAdapter = EventListAdapter()
