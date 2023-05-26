@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import jp.pongi.calendar.databinding.FragmentMainBinding
@@ -22,7 +22,7 @@ class MainFragment : Fragment() {
 
     // Use the 'by activityViewModels()' Kotlin property delegate
     // from the fragment-ktx artifact
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var calendarAdapter: CalendarAdapter
     private lateinit var eventListAdapter: EventListAdapter
@@ -38,11 +38,9 @@ class MainFragment : Fragment() {
             calendarLayout.monthlyTable.apply {
                 calendarAdapter = CalendarAdapter()
                 calendarAdapter.onItemClick = { item ->
-                    mainViewModel.setCurrent(item)
+                    mainViewModel.current.postValue(item.localDate)
                 }
                 calendarAdapter.onItemLongClick = { item ->
-                    mainViewModel.setCurrent(item)
-                    mainViewModel.selectedItemPos = calendarAdapter.selectedItemPos
                     val action = MainFragmentDirections.actionMainToEditEvent(item)
                     findNavController().navigate(action)
                     true
@@ -54,18 +52,14 @@ class MainFragment : Fragment() {
                 eventListAdapter = EventListAdapter()
                 adapter = eventListAdapter
                 eventListAdapter.onItemClick = { event ->
-                    mainViewModel.setEvent(event)
-                    mainViewModel.selectedItemPos = calendarAdapter.selectedItemPos
                     val current = mainViewModel.current.value ?: LocalDate.now()
                     val isToday = current == LocalDate.now()
                     val item = DateItem(current, isToday)
                     val action = MainFragmentDirections.actionMainToEditEvent(item, event)
                     findNavController().navigate(action)
                 }
-
             }
         }
-        mainViewModel.setCurrent()
         return binding.root
     }
 

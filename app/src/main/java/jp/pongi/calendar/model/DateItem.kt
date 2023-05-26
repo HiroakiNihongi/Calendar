@@ -5,7 +5,8 @@ import java.time.LocalDate
 
 data class DateItem(
     val localDate: LocalDate,
-    val today: Boolean = false
+    val today: Boolean = false,
+    val isCurrent: Boolean = false,
 ) : Serializable {
     val dayOfMonth: String = localDate.dayOfMonth.toString()
 }

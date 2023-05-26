@@ -1,7 +1,6 @@
 package jp.pongi.calendar.ui.event
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -11,14 +10,14 @@ import android.widget.EditText
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import jp.pongi.calendar.R
 import jp.pongi.calendar.model.DateItem
 import jp.pongi.calendar.room.entities.Event
-import jp.pongi.calendar.ui.MainViewModel
+import jp.pongi.calendar.ui.EditEventViewModel
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -39,7 +38,7 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
 
     // Use the 'by activityViewModels()' Kotlin property delegate
     // from the fragment-ktx artifact
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val editEventViewModel: EditEventViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         startDateEdit = view.findViewById(R.id.start_date)
@@ -47,9 +46,6 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
         titleTextView = view.findViewById(R.id.title)
         memoTextView = view.findViewById(R.id.memo)
 
-        Log.d("DBG", "current = ${DateTimeFormatter
-            .ofPattern("yyyy年 MM月 dd日")
-            .format(mainViewModel.current.value)}")
         dateItem = args.dateItem
         eventItem = args.event
         eventItem?.let { event ->
@@ -86,7 +82,7 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
                     R.id.menu_delete -> {
                         // イベントの削除
                         eventItem?.let { event ->
-                            mainViewModel.delete(event)
+                            editEventViewModel.delete(event)
                             findNavController().popBackStack()
                         }
                     }
@@ -114,7 +110,7 @@ class EditEventFragment : Fragment(R.layout.fragment_edit_event) {
             title = title,
             memo = memo
         )
-        mainViewModel.update(updateItem)
+        editEventViewModel.update(updateItem)
         findNavController().popBackStack()
     }
 
